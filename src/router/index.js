@@ -6,6 +6,8 @@ import Secret from '@/pages/secret'
 import Help from '@/pages/help'
 import drawlots from '@/pages/drawLots'
 import buyer from '@/pages/buyer'
+import buyingWithFriend from '@/pages/panicbuyingWithFriend'
+import buysuccess from '@/pages/buySuccess'
 
 
 
@@ -48,6 +50,16 @@ export default new Router({
       path: '/home',
       name: '首页',
       component: Home
+    },
+    {
+      path: '/panicbuyingWithFriend',
+      name: '朋友帮抢',
+      component:buyingWithFriend
+    },
+    {
+      path: '/buysuccess',
+      name: '成功分享',
+      component:buysuccess
     },
     // {
     //   path: '/FAQApp',
