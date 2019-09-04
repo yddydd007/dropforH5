@@ -1,12 +1,11 @@
 <template>
-  <div class="downAPP_mask"  v-tap="closeModal"  >
+  <div class="downAPP_mask"  v-tap.self="closeModal"  >
     <div class="downAPP">
       <img class="bg" src="../../../static/img/modal_bg.png" alt="">
       <img class="drop_logo" src="../../../static/img/drop_logo.png" alt="">
       <div class="app_icon" >
         <div class="form_item">
-          手机号:
-          <input type="text" v-model="phoneNumber">
+          <input type="text" v-model="phoneNumber" placeholder="手机号">
         </div>
         <div class="form_item_code form_item">
           <input style="width: 50%" class="item" type="text" placeholder="验证码">
@@ -18,8 +17,8 @@
           </Button>
         </div>
       </div>
-        <img  class="close_button" src="../../../static/img/close_button.png" alt="">
-        <img class="downloadNow" src="../../../static/img/downloadNow.png" alt="">
+        <img v-tap="closeModal" class="close_button" src="../../../static/img/close_button.png" alt="">
+        <img class="downloadNow" src="../../../static/img/helpNow.png" alt="">
         </div>
    </div>
 </template>
@@ -31,7 +30,7 @@
         data(){
             return{
                 phoneNumber:'',
-                time:5,
+                time:30,
                 showTime:false,
                 timer:null
             }
@@ -49,7 +48,7 @@
                     if(self.time === 0){
                         self.showTime = false;
                         clearInterval(self.timer)
-                        self.time = 5
+                        self.time = 30
                     }
                 },1000)
             },
@@ -66,7 +65,7 @@
   .downAPP{
     width: 80%;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
   }
@@ -126,7 +125,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 15px;
    .item{
 
    }

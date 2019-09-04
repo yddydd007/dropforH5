@@ -1,5 +1,5 @@
 <template>
-  <div class="downAPP_mask"  v-tap="closeModal"  >
+  <div class="downAPP_mask"  v-tap.self="closeModal"  >
     <div class="downAPP">
       <img class="bg" src="../../../static/img/modal_bg.png" alt="">
       <img class="drop_logo" src="../../../static/img/drop_logo.png" alt="">

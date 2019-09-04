@@ -32,7 +32,10 @@
           <div v-tap="buyingWithFriend" class="click_button">
              一键帮抢
           </div>
-      <register v-if="showregister">
+      <register
+        v-if="showregister"
+        @close="hideregister"
+      >
 
       </register>
     </div>
@@ -44,13 +47,17 @@
         name: "panicbuyingWithFriend",
         data(){
             return{
-                showregister:true
+                showregister:false
             }
         },
         methods:{
             buyingWithFriend(){
-                alert('some')
+                this.showregister=true
+            },
+            hideregister(){
+                this.showregister=false
             }
+
         },
         components:{
             register
