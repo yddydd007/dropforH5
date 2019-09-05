@@ -2,6 +2,7 @@
   "name": "drop",
   "version": "1.0.0",
   "description": "A Vue.js project",
+   "proxy": "http://api.dropstore.cn",
   "author": "yuandongdong <375695115@qq.com>",
   "private": true,
   "scripts": {
@@ -10,8 +11,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "node-forge": "^0.8.5",
     "vant": "^2.1.8",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"

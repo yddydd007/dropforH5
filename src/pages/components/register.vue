@@ -8,9 +8,9 @@
           <input type="text" v-model="phoneNumber" placeholder="手机号">
         </div>
         <div class="form_item_code form_item">
-          <input style="width: 50%" class="item" type="text" placeholder="验证码">
+          <input v-model="code" style="width: 50%" class="item" type="text" placeholder="验证码">
           <Button @click="showTimeHandle" class="item" size="small" type="default" v-if="!showTime">
-           <span >获取验证码</span>
+           <span  >获取验证码</span>
           </Button>
           <Button class="item" size="small" type="default" v-if="showTime">
             <span >{{time}}s</span>
@@ -18,19 +18,21 @@
         </div>
       </div>
         <img v-tap="closeModal" class="close_button" src="../../../static/img/close_button.png" alt="">
-        <img class="downloadNow" src="../../../static/img/helpNow.png" alt="">
+        <img v-tap="do_Help" class="downloadNow" src="../../../static/img/helpNow.png" alt="">
         </div>
    </div>
 </template>
 
 <script>
-    import { CountDown,Button } from 'vant';
+    import { CountDown,Button,Notify } from 'vant';
+    import http from '../../http/http'
     export default {
         name: "register",
         data(){
             return{
-                phoneNumber:'',
-                time:30,
+                phoneNumber:'19952005387',
+                code:'',
+                time:2,
                 showTime:false,
                 timer:null
             }
@@ -40,6 +42,14 @@
                 this.$emit('close')
             },
             showTimeHandle(){
+                http('/user/send_message', {type:'', params: { mobile:this.phoneNumber } }).then((res) => {
+                debugger
+                }).catch((error) => {
+                    debugger
+                });
+                this.timeStart()
+            },
+            timeStart(){
                 let self =this;
                 this.showTime = true;
                 self.timer?clearInterval(self.timer):null
@@ -48,9 +58,17 @@
                     if(self.time === 0){
                         self.showTime = false;
                         clearInterval(self.timer)
-                        self.time = 30
+                        self.time = 1
                     }
                 },1000)
+            },
+            do_Help(){
+                var phoneReg = /(^1[3|4|5|7|8|9|6]\d{9}$)|(^09\d{8}$)/;
+                if (!phoneReg.test(this.phoneNumber)) {
+                    Notify({ type: 'danger', message: '手机号格式错误！' });
+                    return false;
+                }
+                this.$emit('done',{phone:this.phoneNumber,code:this.code})
             },
 
         },

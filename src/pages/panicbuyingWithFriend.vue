@@ -35,6 +35,7 @@
       <register
         v-if="showregister"
         @close="hideregister"
+        @done="done"
       >
 
       </register>
@@ -43,6 +44,8 @@
 
 <script>
   import register from './components/register'
+  import http from '../http/http'
+  import axios from 'axios'
     export default {
         name: "panicbuyingWithFriend",
         data(){
@@ -56,12 +59,26 @@
             },
             hideregister(){
                 this.showregister=false
-            }
+            },
+            done({phone,code}){
 
+            },
+            getActiveDetail(){
+                http('/activity/activity_info', {params: { id:'15' } }).then((res) => {
+
+                }).catch((error) => {
+
+                });
+                // axios.post('http://api.dropstore.cn/activity/activity_info',{params: { id:'15' }}).then(()=>{}).catch(()=>{})
+            }
         },
+
         components:{
             register
-        }
+        },
+        mounted(){
+            this.getActiveDetail()
+        },
     }
 </script>
 
