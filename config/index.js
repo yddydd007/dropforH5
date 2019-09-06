@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
-        target: 'http://api.dropstore.cn/', // 设置你调用的接口域名和端口号
-        changeOrigin: true,     // 跨域
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
+      // '/api': {
+      //   target: 'http://api.dropstore.cn/', // 设置你调用的接口域名和端口号
+      //   changeOrigin: true,     // 跨域
+      //   pathRewrite: {
+      //     '^/api': ''
+      //   }
+      // }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

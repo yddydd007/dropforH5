@@ -30,9 +30,9 @@
         name: "register",
         data(){
             return{
-                phoneNumber:'19952005387',
+                phoneNumber:'',
                 code:'',
-                time:2,
+                time:30,
                 showTime:false,
                 timer:null
             }
@@ -42,12 +42,14 @@
                 this.$emit('close')
             },
             showTimeHandle(){
-                http('/user/send_message', {type:'', params: { mobile:this.phoneNumber } }).then((res) => {
-                debugger
-                }).catch((error) => {
-                    debugger
-                });
-                this.timeStart()
+                let self = this;
+                http.post('/user/send_message', { mobile:this.phoneNumber },(res) => {
+                    Notify({type:'success',message:'发送成功'})
+                    self.timeStart()
+                },(error) => {
+                    Notify({type:'danger',message:'发送失败请重试！'})
+                })
+
             },
             timeStart(){
                 let self =this;
@@ -58,7 +60,7 @@
                     if(self.time === 0){
                         self.showTime = false;
                         clearInterval(self.timer)
-                        self.time = 1
+                        self.time = 30
                     }
                 },1000)
             },

@@ -3,12 +3,12 @@
     <div class="headerlogo">
       <img src="../../static/img/buysuccess.png" alt="">
     </div>
-    <h5 class="title">我在Drop以<span>￥1999</span>的价格成功抢购到这双鞋!</h5>
+    <h5 class="title">我在Drop以<span>￥{{activity.a_price}}</span>的价格成功抢购到这双鞋!</h5>
     <div class="shoes">
         <div class="shoesName">
-          AIR JORDAN 11 2018年复刻版“CONCORD”黑白 康扣
+          {{activity.activity_name}}
         </div>
-        <img src="../../static/img/shoese.png" alt="">
+        <img :src="activity.activity_img" alt="">
     </div>
     <div class="myTeamer">
       <div class="myTeamer_left">参与助攻的 Dropper</div>
@@ -17,7 +17,11 @@
       </div>
     </div>
     <div class="heaser_icon">
-      <img src="../../static/img/touxiang.png" v-for="(key,index) in 10" :key="index" alt="">
+      <img
+        style="width:53px;height: 53px"
+        v-for="(key,index) in headerImgs"
+        :src="key.img"
+        :key="index" alt="">
     </div>
     <div class="bottom_button">
       <div v-tap="buyingWithFriend" class="click_button">
@@ -37,17 +41,32 @@
 <script>
     import { Overlay } from 'vant';
     import Downapp from './components/downAPP'
+    import http from '../http/http'
 
     export default {
         name: "buySuccess",
         data(){
             return{
                 showmodal:false,
+                showregister:false,
+                activity:{
+                    a_price:0,
+                    activity_name:0,
+                    shoesNumber:0,
+                    upNumber:0,
+                    join_user:0,
+                    chaNumber:0,
+                    activity_img:''
+                },
+                headerImgs:[]
             }
         },
         components:{
             Downapp,
             Overlay
+        },
+        mounted(){
+            this.getActiveDetail()
         },
         methods:{
             buyingWithFriend(){
@@ -55,6 +74,21 @@
             },
             closeModal(){
                 this.showmodal = false
+            },
+            getActiveDetail(){
+                let self = this;
+                http.post('/activity/h5_activity_info', { id:this.$route.query.id,u_a_id:this.$route.query.u_a_id },(res) => {
+                    self.activity.a_price=res.data.activity.a_price || 0;
+                    self.activity.activity_name=res.data.activity.activity_name;
+                    self.activity.shoesNumber=res.data.user_activity.number || 0;
+                    self.activity.upNumber=res.data.user_activity.number+1 || 0;
+                    self.activity.join_user=res.data.join_user.length || 0;
+                    self.activity.chaNumber=(res.data.user_activity.number-1-res.data.join_user.length) || 0 ;
+                    self.activity.activity_img=res.data.activity.image;
+                    self.headerImgs=res.data.join_user || [];
+                },(error) => {
+
+                })
             }
         }
     }

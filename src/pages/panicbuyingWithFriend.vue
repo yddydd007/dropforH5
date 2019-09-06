@@ -3,35 +3,43 @@
       <div class="headerlogo">
         <img src="../../static/img/headerlogo.png" alt="">
       </div>
-      <h5 class="title">我在Drop上要以 <span>￥1999</span>的价格抢购这双鞋</h5>
+      <h5 class="title">我在Drop上要以 <span>￥{{activity.a_price}}</span>的价格抢购这双鞋</h5>
       <div class="groupInfo">
         <div class="shoes">
-          <img src="../../static/img/shoese.png" alt="">
+          <img :src="activity.activity_img" alt="">
           <div class="shoesName">
-            AIR JORDAN 11 2018年复刻版“CONCORD”黑白 康扣
+           {{activity.activity_name}}
           </div>
           <div class="teamInfo">
               <div  class="teamInfo_item">
-                预期购买  <span>5</span> 双
+                预期购买  <span>{{activity.shoesNumber}}</span> 双
               </div>
               <div class="teamInfo_item">
-                团队上限 <span>6</span> 人
+                团队上限 <span>{{activity.upNumber}}</span> 人
               </div>
               <div class="teamInfo_item">
-                参与人数  <span>6</span> 人
+                参与人数  <span>{{activity.join_user}}</span> 人
               </div>
               <div class="teamInfo_item">
-                还差 <span>8</span> 人满额
+                还差 <span>{{activity.chaNumber}}</span> 人满额
               </div>
           </div>
           <div class="heaser_icon">
-            <img src="../../static/img/touxiang.png" v-for="(key,index) in 10" :key="index" alt="">
+            <img
+              style="width:53px;height: 53px"
+              v-for="(key,index) in headerImgs"
+              :src="key.img"
+              :key="index" alt="">
           </div>
         </div>
       </div>
-          <div v-tap="buyingWithFriend" class="click_button">
+          <div v-if="!is_join" v-tap="buyingWithFriend" class="click_button">
              一键帮抢
           </div>
+          <div  v-if="is_join" v-tap="hasJoinThisActivity" class="click_button">
+             您已参加此活动
+          </div>
+
       <register
         v-if="showregister"
         @close="hideregister"
@@ -39,18 +47,37 @@
       >
 
       </register>
+      <Downapp
+        v-if="showmodal"
+        @close="closeModal"
+      >
+
+      </Downapp>
     </div>
 </template>
 
 <script>
+  import {Toast} from 'vant'
   import register from './components/register'
   import http from '../http/http'
-  import axios from 'axios'
+  import Downapp from './components/downAPP'
     export default {
         name: "panicbuyingWithFriend",
         data(){
             return{
-                showregister:false
+                showregister:false,
+                activity:{
+                    a_price:0,
+                    activity_name:0,
+                    shoesNumber:0,
+                    upNumber:0,
+                    join_user:0,
+                    chaNumber:0,
+                    activity_img:''
+                },
+                is_join:false,
+                showmodal:false,
+                headerImgs:[]
             }
         },
         methods:{
@@ -60,21 +87,52 @@
             hideregister(){
                 this.showregister=false
             },
-            done({phone,code}){
+            joinThisActivit(){
+                let self = this;
+                http.post('/activity/do_add_activity_user', {activity_id:this.$route.query.activity_id,inviter:this.$route.query.inviter,u_a_id:this.$route.query.u_a_id,
+                  },(res) => {
 
+                    Toast('加入成功！')
+                },(error) => {
+
+                })
+            },
+            done({phone,code}){
+                let self = this;
+                http.post('/user/login', { mobile:phone,codes:code, },(res) => {
+                    debugger
+                    localStorage.setItem('token',res.data.user_s_id);
+                    self.joinThisActivit()
+                },(error) => {
+
+                })
             },
             getActiveDetail(){
-                http('/activity/activity_info', {params: { id:'15' } }).then((res) => {
+                let self = this;
+                http.post('/activity/h5_activity_info', { id:this.$route.query.id,u_a_id:this.$route.query.u_a_id },(res) => {
+                  self.activity.a_price=res.data.activity.a_price || 0;
+                  self.activity.activity_name=res.data.activity.activity_name;
+                  self.activity.shoesNumber=res.data.user_activity.number || 0;
+                  self.activity.upNumber=res.data.user_activity.number+1 || 0;
+                  self.activity.join_user=res.data.join_user.length || 0;
+                  self.activity.chaNumber=(res.data.user_activity.number-1-res.data.join_user.length) || 0 ;
+                  self.activity.activity_img=res.data.activity.image;
+                  self.headerImgs=res.data.join_user || [];
+                },(error) => {
 
-                }).catch((error) => {
-
-                });
-                // axios.post('http://api.dropstore.cn/activity/activity_info',{params: { id:'15' }}).then(()=>{}).catch(()=>{})
+                })
+              },
+            hasJoinThisActivity(){
+                this.showmodal=true
+            },
+            closeModal(){
+                this.showmodal=false
             }
-        },
+              },
 
         components:{
-            register
+            register,
+            Downapp
         },
         mounted(){
             this.getActiveDetail()

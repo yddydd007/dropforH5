@@ -4,8 +4,8 @@
       <img class="bg" src="../../../static/img/modal_bg.png" alt="">
       <img class="drop_logo" src="../../../static/img/drop_logo.png" alt="">
       <img class="app_icon" src="../../../static/img/app_icon.png" alt="">
-      <img class="close_button" src="../../../static/img/close_button.png" alt="">
-      <img class="downloadNow" src="../../../static/img/downloadNow.png" alt="">
+      <img @click="closeModal" class="close_button" src="../../../static/img/close_button.png" alt="">
+      <img @click="downAPP" class="downloadNow" src="../../../static/img/downloadNow.png" alt="">
     </div>
   </div>
 
@@ -22,6 +22,9 @@
         methods:{
             closeModal(){
                 this.$emit('close')
+            },
+            downAPP(){
+
             }
         }
     }

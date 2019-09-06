@@ -52,7 +52,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/panicbuyingWithFriend',
+      path: '/panicbuyingWithFriend/:id?',
       name: '朋友帮抢',
       component:buyingWithFriend
     },
