@@ -24,7 +24,7 @@
                 this.$emit('close')
             },
             downAPP(){
-
+                this.$router.push('home')
             }
         }
     }

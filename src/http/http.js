@@ -34,6 +34,7 @@ axios.interceptors.response.use(function (response) {
     }
 
     Toast(response.data.callbackMsg);
+
     throw new Error(response.data.callbackMsg);
   }
   // Do something with response data

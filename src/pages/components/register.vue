@@ -1,41 +1,55 @@
 <template>
-  <div class="downAPP_mask"  v-tap.self="closeModal"  >
-    <div class="downAPP">
-      <img class="bg" src="../../../static/img/modal_bg.png" alt="">
-      <img class="drop_logo" src="../../../static/img/drop_logo.png" alt="">
-      <div class="app_icon" >
-        <div class="form_item">
-          <input type="text" v-model="phoneNumber" placeholder="手机号">
-        </div>
-        <div class="form_item_code form_item">
-          <input v-model="code" style="width: 50%" class="item" type="text" placeholder="验证码">
-          <Button @click="showTimeHandle" class="item" size="small" type="default" v-if="!showTime">
-           <span  >获取验证码</span>
-          </Button>
-          <Button class="item" size="small" type="default" v-if="showTime">
-            <span >{{time}}s</span>
-          </Button>
-        </div>
-      </div>
-        <img v-tap="closeModal" class="close_button" src="../../../static/img/close_button.png" alt="">
-        <img v-tap="do_Help" class="downloadNow" src="../../../static/img/helpNow.png" alt="">
-        </div>
-   </div>
+<!--  <div class="downAPP_mask"  v-tap.self="closeModal"  >-->
+<!--    <div class="downAPP">-->
+<!--      <img class="bg" src="../../../static/img/modal_bg.png" alt="">-->
+<!--      <img class="drop_logo" src="../../../static/img/drop_logo.png" alt="">-->
+<!--      <div class="app_icon" >-->
+<!--        <div class="form_item">-->
+<!--          <input type="text" v-model="phoneNumber" placeholder="手机号">-->
+<!--        </div>-->
+<!--        <div class="form_item_code form_item">-->
+<!--          <input v-model="code" style="width: 50%" class="item" type="text" placeholder="验证码">-->
+<!--          <Button @click="showTimeHandle" class="item" size="small" type="default" v-if="!showTime">-->
+<!--           <span  >获取验证码</span>-->
+<!--          </Button>-->
+<!--          <Button class="item" size="small" type="default" v-if="showTime">-->
+<!--            <span >{{time}}s</span>-->
+<!--          </Button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--        <img v-tap="closeModal" class="close_button" src="../../../static/img/close_button.png" alt="">-->
+<!--        <img v-tap="do_Help" class="downloadNow" src="../../../static/img/helpNow.png" alt="">-->
+<!--        </div>-->
+<!--   </div>-->
+  <van-dialog
+    v-model="show"
+    title="Drop"
+    @cancel="closeModal"
+    show-cancel-button
+  >
+
+  </van-dialog>
 </template>
 
 <script>
     import { CountDown,Button,Notify } from 'vant';
     import http from '../../http/http'
+    import { Dialog } from 'vant';
     export default {
         name: "register",
+        props:['showregister'],
         data(){
             return{
                 phoneNumber:'',
                 code:'',
                 time:30,
                 showTime:false,
-                timer:null
+                timer:null,
+                show:false
             }
+        },
+        computed:{
+
         },
         methods:{
             closeModal(){
@@ -76,7 +90,14 @@
         },
         components:{
             CountDown,
-            Button
+            Button,
+            [Dialog.Component.name]: Dialog.Component,
+        },
+        watch: {
+
+        },
+        mounted() {
+            this.show = this.showregister
         }
     }
 </script>

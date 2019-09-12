@@ -3,7 +3,7 @@
     <div class="headerlogo">
       <img src="../../static/img/buysuccess.png" alt="">
     </div>
-    <h5 class="title">我在Drop以<span>￥{{activity.a_price}}</span>的价格成功抢购到这双鞋!</h5>
+    <h5 class="title">我在Drop以<span>￥{{activity.a_price*1/100}}</span>的价格成功抢购到这双鞋!</h5>
     <div class="shoes">
         <div class="shoesName">
           {{activity.activity_name}}
@@ -17,11 +17,16 @@
       </div>
     </div>
     <div class="heaser_icon">
-      <img
-        style="width:53px;height: 53px"
+      <div
         v-for="(key,index) in headerImgs"
-        :src="key.img"
-        :key="index" alt="">
+        style="width:43px;margin-right: 5px;display: inline-block"
+      >
+        <img
+          style="width:43px"
+          :src="key.img?key.img:key.sex=='2'?'../../static/img/girl_icon.png':'../../static/img/boy_icon.png'"
+          :key="index" alt="">
+        <p style="text-align: center;font-size: 12px">{{key.user_name}}</p>
+      </div>
     </div>
     <div class="bottom_button">
       <div v-tap="buyingWithFriend" class="click_button">
@@ -78,12 +83,12 @@
             getActiveDetail(){
                 let self = this;
                 http.post('/activity/h5_activity_info', { id:this.$route.query.id,u_a_id:this.$route.query.u_a_id },(res) => {
-                    self.activity.a_price=res.data.activity.a_price || 0;
+                    self.activity.a_price=res.data.activity.price || 0;
                     self.activity.activity_name=res.data.activity.activity_name;
                     self.activity.shoesNumber=res.data.user_activity.number || 0;
-                    self.activity.upNumber=res.data.user_activity.number+1 || 0;
+                    self.activity.upNumber=res.data.user_activity.number || 0;
                     self.activity.join_user=res.data.join_user.length || 0;
-                    self.activity.chaNumber=(res.data.user_activity.number-1-res.data.join_user.length) || 0 ;
+                    self.activity.chaNumber=(res.data.user_activity.number-res.data.join_user.length) || 0 ;
                     self.activity.activity_img=res.data.activity.image;
                     self.headerImgs=res.data.join_user || [];
                 },(error) => {
@@ -190,10 +195,6 @@
     color: #ffffff;
   }
   .heaser_icon{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
     padding:10px 23px 10px 23px;
     img{
       flex: 1;

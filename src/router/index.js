@@ -8,6 +8,7 @@ import drawlots from '@/pages/drawLots'
 import buyer from '@/pages/buyer'
 import buyingWithFriend from '@/pages/panicbuyingWithFriend'
 import buysuccess from '@/pages/buySuccess'
+import autarkyRule from '@/pages/autarkyRule'
 
 
 
@@ -60,6 +61,11 @@ export default new Router({
       path: '/buysuccess',
       name: '成功分享',
       component:buysuccess
+    },
+    {
+      path: '/autarkyRule',
+      name: '自营规则说明',
+      component:autarkyRule
     },
     // {
     //   path: '/FAQApp',
