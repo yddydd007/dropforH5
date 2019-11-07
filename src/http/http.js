@@ -19,7 +19,7 @@ axios.interceptors.request.use(function (config) {
   if (url.indexOf("login") > -1) {
     localStorage.setItem('token','')
     config.headers['Authorization'] = "";
-  } else if(url.indexOf("do_add_activity_user") > -1){
+  } else if(url.indexOf("do_add_activity_user") > -1 || url.indexOf("index") > -1){
     config.headers["Authorization"] = localStorage.getItem('token') || '';
   }
   return config;
@@ -111,6 +111,7 @@ export default {
     }
   },
   get(url, data, Callback, errorback) {
+    const parmas = { ...data, timestamp: Date.now() };
     axios({
       method: 'get',
       params: { ...parmas, token: md5(encodeURIComponent(sortObj(parmas))) },

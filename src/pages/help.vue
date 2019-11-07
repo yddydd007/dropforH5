@@ -1,38 +1,76 @@
 <template>
     <div class="help">
-     <h5>一、如何提高中签几率</h5>
+      <collapse v-model="activeNames" accordion>
+        <collapse-item title="如何提高中签几率" name="drawprobability">
+          <p>1.分享给更多的用户，每增加一次助攻可以提升中签几率</p>
 
-     <p>1.分享给更多的用户，每增加一次助攻可以提升中签几率</p>
+          <p>2.参与活动的未中签次数，可帮助您累计提升中签几率</p>
 
-     <p>2.参与活动的未中签次数，可帮助您累计提升中签几率</p>
-
-     <p>3.在DROP APP的可使用余额越多时，可提升每次活动的中签几率</p>
-
-     <h5>二、什么是期货</h5>
-
-     <p>1.海外期货周期：45天内发出</p>
-
-     <p>2.发货周期内如您取消订单，DROP将会扣除您订单价格的4%作为违约金，违约金将从您的账户储值余额中扣除。</p>
-
-     <p>3如规定期限内未发货，我们将赔付您订单价格的4%作为补偿金，补偿金将会发放至您的储值账户。</p>
-
-
-     <h5>三、什么是现货</h5>
-     <p>1.国内现货周期：15天内发出；</p>
-
-     <p>2.发货周期内如您取消订单，DROP将会扣除您鞋款的4%作为违约金，违约金将从您的账户储值余额中扣除。</p>
-
-     <p>3.如规定期限内未发货，我们将赔付您鞋款的4%作为补偿金，补偿金将会发放至您的储值账户。</p>
-
-     <h5>四、如何余额提现</h5>
-     <p>点击“余额提现”并选择提现渠道（如微信、支付宝、银行卡等），即可完成提现。</p>
-
+          <p>3.在炒饭 APP的可使用余额越多时，可提升每次活动的中签几率</p>
+        </collapse-item>
+        <collapse-item title="预售,现货发货时间" name="futures">
+          1.海外预售周期：35天内发出
+          2.国内现货周期：48小时内发出；
+        </collapse-item>
+        <collapse-item title="限时抢购参与规则" name="draw" >
+          <img width="100%" src="../../static/img/qgou.png" alt="">
+        </collapse-item>
+        <collapse-item title="限时抽签及原价购参与规则" name="panicbuy" >
+          <img width="100%" src="../../static/img/chq.png" alt="">
+        </collapse-item>
+        <collapse-item title="自由交易区购买规则" name="freetrade" >
+          <img width="100%" src="../../static/img/freeTradeRules.png" alt="">
+        </collapse-item>
+        <collapse-item title="平台收货地址" name="ourAdress" >
+          收件人:酱爆君
+          联系电话:17191187921
+          公司地址：北京市朝阳区朝外大街乙6号 朝外SOHO B座 0823
+        </collapse-item>
+        </collapse>
     </div>
 </template>
 
 <script>
+    import { Collapse, CollapseItem } from 'vant';
     export default {
-        name: "help"
+        name: "help",
+        data(){
+            return{
+                activeNames:''
+            }
+        },
+        components:{
+            Collapse,
+            CollapseItem
+        },
+        mounted(){
+          this.activeNames = this.$route.params.type
+        },
+        methods:{
+            clickBtn (index, i) {
+                this.flag = true
+                const arrList = this.conditions[index].list[i].value
+                const _this = document.getElementsByClassName('btn-container')[index].children[i]
+                const attr = _this.getAttribute('class')
+                if (attr.indexOf('active') === -1) {
+                    _this.setAttribute('class', 'btn active')
+                    // this.arrVal.push( arrList ) + "-"
+                    this.getLeftList()
+                } else {
+                    _this.setAttribute('class', 'btn')
+                    // this.arrVal.splice(index,1)
+
+                    this.getLeftList()
+                }
+
+                if (this.arrVal.indexOf(arrList) === -1 ) {
+                    let newArr = this.arrVal.push( arrList );
+                    let newStr = newArr.join('-')
+                } else {
+                    this.arrVal.splice(this.arrVal.indexOf(arrList),1)
+                }
+            },
+        }
     }
 </script>
 

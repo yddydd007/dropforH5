@@ -2,25 +2,25 @@
     <div class="home">
       <div class="header">
         <div class="container">
-          <img class="header_icon" src="../../static/img/logo_icon.png" alt="">
-          <a class="header_icon_a" href="#" style="font-weight: bold;font-size: 18px;color: #ffffff" >关于Drop</a>
-          <a class="header_icon_a" href="#" style="font-weight: bold;font-size: 18px;color: #ffffff" >联系我们</a>
-          <a class="header_icon_a" href="#" style="font-weight: bold;font-size: 18px;color: #ffffff" >商家入驻</a>
+          <img class="header_icon" src="../../static/img/logo.png" alt="">
+          <a @click="noButton" class="header_icon_a" href="#" style="font-weight: bold;font-size: 18px;color: #000" >关于炒饭</a>
+          <a @click="noButton('kefu')" class="header_icon_a" href="#" style="font-weight: bold;font-size: 18px;color: #000" >联系我们</a>
+          <a @click="noButton" class="header_icon_a" href="#" style="font-weight: bold;font-size: 18px;color: #000" >商家入驻</a>
         </div>
       </div>
       <div class="download">
         <div class="container drop_logo_box clearfix">
           <div class="drop_logo_left">
-            <img class="drop_logo" src="../../static/img/Slogen.png" alt="">
+            <img class="drop_logo" src="../../static/img/logo.png" alt="">
+            <h5 >让球鞋变得更简单！</h5>
             <div>
-            <div>
-              <a href="https://www.pgyer.com/pbFd" target="_blank">
+            <div style="margin-top: 15px">
+              <a href="https://www.pgyer.com/whnI" target="_blank">
                 <img class="andriod" src="../../static/img/andriod.png" alt="">
               </a>
-              <a href="https://www.pgyer.com/oq1O" >
+              <a href="https://www.pgyer.com/4i4h" >
                 <img class="ios" src="../../static/img/ios.png" alt="">
               </a>
-
             </div>
           </div>
           </div>
@@ -31,33 +31,27 @@
       </div>
       <div class="mailcenter">
         <div class="container clearfix">
-          <div class="left" >
             <img class="shoese" src="../../static/img/shoes.png" alt="">
-          </div>
-          <div class="right">
-            <img class="erweima" src="../../static/img/erweima.png" alt="">
-            <div>
-              <a href="https://shop41750000.youzan.com/v2/showcase/homepage?kdt_id=41557832">
-                <img class="mail_center" src="../../static/img/mail_center.png" alt="">
-              </a>
-            </div>
+          <div style="text-align: center;margin-top: 17px">
+            <img @click="enterToH5Mail" style="width: 128px" src="../../static/img/mailenter.png" alt="">
           </div>
         </div>
       </div>
       <div class="be_a_drop">
         <div class="container">
           <div class="left">
-            <img class="be_a_droper_img" src="../../static/img/be_a_droper_img.png" alt="">
-          </div>
+            <h5>原价发售</h5>
+            <h5>球鞋锦鲤</h5>
+            <h5>欢迎加入 <span >炒饭</span></h5>
           <div>
-
+          </div>
           </div>
         </div>
       </div>
       <div class="copyrator">
         <div class="container">
-          <h5>拙朴潮流（北京）科技有限公司</h5>
-          <h5>京ICP备14058946号 <span><img class="gongan_icon" src="../../static/img/gan.png" alt=""></span>京公安网安备11010502032474</h5>
+          <h5>酱爆潮流（北京）科技有限公司</h5>
+          <h5>京ICP备14058946号<span><img class="gongan_icon" src="../../static/img/gan.png" alt=""></span>京公安网安备11010502032474</h5>
         </div>
 
       </div>
@@ -75,7 +69,19 @@
         methods:{
             downloadIOS(){
                 Toast('尽情期待！')
+            },
+            noButton(type){
+                if(type == 'kefu'){
+                   window.open('https://v1.live800.com/live800/chatClient/chatbox.jsp?companyID=1288733&configID=47991&jid=4165914525&lan=zh&subject=%E5%92%A8%E8%AF%A2&prechatinfoexist=1&s=1')
+                }else if('about') {
+                   this.$router.push('aboutus')
+                }else {
+                    Toast('尽情期待！')
+                }
 
+            },
+            enterToH5Mail(){
+                Toast('尽情期待！')
             }
         }
     }
@@ -94,7 +100,6 @@
 }
 
 .header{
-  background: #000000;
   padding-top: 14px;
   padding-bottom: 14px;
   .container{
@@ -127,7 +132,7 @@
     zoom: 1;
   }
   .download{
-    background: #c20000;
+    background: #FF7800;
     padding-top: 50px;
     box-sizing: border-box;
     .drop_logo_box{
@@ -137,13 +142,17 @@
       .drop_logo_left{
         float: left;
         text-align: center;
+        padding-top: 20px;
        .drop_logo{
-         width: 160px;
-        margin-bottom: 15px;
+        width: 73px;
        }
        .ios{
          margin-left: 7px;
        }
+        h5{
+          font-size: 20px;
+          color: #ffffff;
+        }
       }
       .drop_logo_right{
         float: right;
@@ -167,13 +176,15 @@
     }
   }
 .mailcenter{
-
+  background: #ffffff;
   .container{
-    padding: 50px 14px 50px 14px;
+    padding: 20px 14px 15px 14px;
     box-sizing: border-box;
   }
   .shoese{
-    width: 382/2px;
+    width: 90%;
+    margin: 0 auto;
+    display: block;
   }
   .erweima{
     width: 130px;
@@ -196,9 +207,16 @@
     .be_a_droper_img{
       width: 308/2px;
     }
+    h5{
+      color: #ffffff;
+      font-size: 31px;
+      span{
+        color: #FF7800;
+      }
+    }
   }
   .copyrator{
-    background: #c20000;
+    background: #FF7800;
     color: #ffffff;
     text-align: center;
     padding-top: 12px;

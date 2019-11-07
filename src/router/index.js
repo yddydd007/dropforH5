@@ -9,6 +9,10 @@ import buyer from '@/pages/buyer'
 import buyingWithFriend from '@/pages/panicbuyingWithFriend'
 import buysuccess from '@/pages/buySuccess'
 import autarkyRule from '@/pages/autarkyRule'
+import salerKnow from '@/pages/salerKnow'
+import shareMyShoese from '@/pages/shareMyShoese'
+import aboutUs from '@/pages/aboutUs'
+import mytable from '@/pages/mytable'
 
 
 
@@ -23,7 +27,7 @@ export default new Router({
       hidden: true
     },
     {
-      path: '/help',
+      path: '/help/:type?',
       name: '帮助中心',
       component: Help,
     },
@@ -66,6 +70,26 @@ export default new Router({
       path: '/autarkyRule',
       name: '自营规则说明',
       component:autarkyRule
+    },
+    {
+      path: '/salerKnow',
+      name: '卖家须知',
+      component:salerKnow
+    },
+    {
+      path: '/shareMyShoese/:id?',
+      name: '仓库分享',
+      component:shareMyShoese
+    },
+    {
+      path: '/aboutus',
+      name: '关于我们',
+      component:aboutUs
+    },
+    {
+      path: '/mytable',
+      name: '错误收集',
+      component:mytable
     },
     // {
     //   path: '/FAQApp',

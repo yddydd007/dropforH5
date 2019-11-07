@@ -1,51 +1,40 @@
 <template>
   <div class="buySuccess">
-    <div class="headerlogo">
-      <img src="../../static/img/buysuccess.png" alt="">
-    </div>
-    <h5 class="title">我在Drop以<span>￥{{activity.a_price*1/100}}</span>的价格成功抢购到这双鞋!</h5>
     <div class="shoes">
-        <div class="shoesName">
+      <img :src="activity.activity_img" alt="">
+      <div class="shoesName">
           {{activity.activity_name}}
-        </div>
-        <img :src="activity.activity_img" alt="">
-    </div>
-    <div class="myTeamer">
-      <div class="myTeamer_left">参与助攻的 Dropper</div>
-      <div class="myTeamer_right">
-        <img src="../../static/img/boyAndGirl.png" alt="">
       </div>
+    </div>
+    <div class="headerlogo">
+      <h5>抢购成功!</h5>
+    </div>
+    <h5 class="title">我在炒饭以<span>￥{{activity.a_price*1/100}}</span>的价格成功抢购到这双鞋!</h5>
+    <div class="myTeamer">
+      <div class="myTeamer_left">参与助攻</div>
     </div>
     <div class="heaser_icon">
       <div
         v-for="(key,index) in headerImgs"
-        style="width:43px;margin-right: 5px;display: inline-block"
+        style="width:60px;margin-right: 5px;display: inline-block;text-align: center"
       >
         <img
-          style="width:43px"
-          :src="key.img?key.img:key.sex=='2'?'../../static/img/girl_icon.png':'../../static/img/boy_icon.png'"
+          style="width:43px;border-radius: 50%"
+          :src="key.avatar?key.avatar:key.sex=='2'?'../../static/img/girl_icon.png':'../../static/img/boy_icon.png'"
           :key="index" alt="">
         <p style="text-align: center;font-size: 12px">{{key.user_name}}</p>
       </div>
     </div>
     <div class="bottom_button">
       <div v-tap="buyingWithFriend" class="click_button">
+        加入我们
       </div>
-
-
     </div>
-    <Downapp
-    v-if="showmodal"
-    @close="closeModal"
-    >
-
-    </Downapp>
   </div>
 </template>
 
 <script>
     import { Overlay } from 'vant';
-    import Downapp from './components/downAPP'
     import http from '../http/http'
 
     export default {
@@ -67,7 +56,6 @@
             }
         },
         components:{
-            Downapp,
             Overlay
         },
         mounted(){
@@ -75,21 +63,17 @@
         },
         methods:{
             buyingWithFriend(){
-                this.showmodal = true
+                this.$router.push('home')
             },
             closeModal(){
                 this.showmodal = false
             },
             getActiveDetail(){
                 let self = this;
-                http.post('/activity/h5_activity_info', { id:this.$route.query.id,u_a_id:this.$route.query.u_a_id },(res) => {
-                    self.activity.a_price=res.data.activity.price || 0;
-                    self.activity.activity_name=res.data.activity.activity_name;
-                    self.activity.shoesNumber=res.data.user_activity.number || 0;
-                    self.activity.upNumber=res.data.user_activity.number || 0;
-                    self.activity.join_user=res.data.join_user.length || 0;
-                    self.activity.chaNumber=(res.data.user_activity.number-res.data.join_user.length) || 0 ;
-                    self.activity.activity_img=res.data.activity.image;
+                http.post('/order/share_info', { order_id:this.$route.query.id },(res) => {
+                    self.activity.a_price=res.data.price || 0;
+                    self.activity.activity_name=res.data.goods_name;
+                    self.activity.activity_img=res.data.goods_image;
                     self.headerImgs=res.data.join_user || [];
                 },(error) => {
 
@@ -106,12 +90,15 @@
   }
   .headerlogo{
     width: 100%;
-    padding-top: 40px;
     padding-left: 25px;
     padding-right: 25px;
     box-sizing: border-box;
-    img{
+    h5{
       width: 100%;
+      text-align: center;
+      color: #FFA700;
+      font-weight: bold;
+      font-size: 20px;
     }
   }
   .title{
@@ -119,23 +106,25 @@
     line-height: 32px;
     font-size: 16px;
     text-align: center;
-    background: #c20000;
-    color: #ffffff;
+    color: #727272;
     padding-left: 18px;
     padding-right: 18px;
     box-sizing: border-box;
     span{
+      color: #FFA700;
       font-size: 20px;
       font-weight: bold;
     }
   }
   .shoesName{
-    padding: 25px;
+    padding-bottom: 25px;
     text-align: center;
-
+    margin: 0 auto;
+    margin-top: 17px;
+    width: 90%;
+    word-break: break-all;
   }
   .shoes{
-
     img{
       display: block;
       width: 80%;
@@ -143,17 +132,17 @@
     }
   }
   .myTeamer{
-    height: 32px;
-    line-height: 32px;
+    height: 40px;
+    line-height: 40px;
     font-size: 16px;
-    background: #c20000;
-    color: #ffffff;
+    color: #fff;
     padding-left: 18px;
-    padding-right: 18px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: #FFA700;
+    margin-top: 17px;
     .myTeamer_left{
       flex: 1;
     }
@@ -186,7 +175,6 @@
     }
   }
   .click_button{
-    background: url("../../static/img/be_a_droper.png") no-repeat;
     background-size: contain;
     width: 350px;
     height: 50px;
@@ -204,11 +192,27 @@
     }
   }
   .bottom_button{
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-163px);
     font-weight: bold;
-    padding-bottom: 30px;
   }
   .click_button{
+    width: 307px;
+    height: 46px;
+    line-height: 46px;
+    background: #FFA700;
+    color: #ffffff;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 80px;
+  }
+  .heaser_icon p{
+    text-align: center;
+    font-size: 12px;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 </style>
